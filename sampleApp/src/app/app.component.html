@@ -1,0 +1,15 @@
+<div id="userNav">
+    <button mat-button [routerLink]="['user/samples']">User Samples</button> |
+    <button mat-button [routerLink]="['user/dash']">User Dash</button>
+</div>
+<div id="adminNav">
+    <button mat-button [routerLink]="['admin/dash']"> <mat-icon>home</mat-icon> (admin dash)</button>
+    <button mat-button [routerLink]="['admin/history']">Open Requests</button>
+    <button mat-button [routerLink]="['admin/create']">Create Sample</button>
+    <button mat-button [routerLink]="['admin/history']">History</button>
+    <button mat-button [routerLink]="['admin/return']">Return</button>
+</div>
+
+<hr>
+
+<router-outlet></router-outlet>
