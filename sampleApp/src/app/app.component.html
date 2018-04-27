@@ -1,0 +1,40 @@
+<html>
+  <title>frontpage</title>
+<body class="mat-app-background">
+  all the links for now for testing
+  <br>
+  
+  <button mat-button [routerLink]="['confirmation']">confirmation page</button>
+  <button mat-button [routerLink]="['login']">Login</button>
+  <hr>
+  <h1>admin routes (will become navbar)</h1>
+  
+  <a [routerLink]="['admin/create']">Create Sample</a> |
+  <a [routerLink]="['admin/dash']">Admin Dash</a>
+  <a [routerLink]="['admin/requests']">Admin Users' Requests</a>
+  <a [routerLink]="['admin/history']">Admin Check History</a>
+  
+  <hr>
+  <h1>user routes (will become navbar)</h1>
+  
+  <a [routerLink]="['user/samples']">User Samples</a> |
+  <a [routerLink]="['user/dash']">User Dash</a>
+  <hr>
+  <h1>Below is where components will load:</h1>
+  
+  
+  
+  
+  <button mat-button [routerLink]="['admin/dash']">Home</button>
+  <button mat-button [routerLink]="['admin/his']">Open Requests</button>
+  <button mat-button [routerLink]="['admin/create']">Create Sample</button>
+  <button mat-button [routerLink]="['admin/history']">History</button>
+  <button mat-button [routerLink]="['admin/history']">Return</button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+</body>
+</html>
+
+<router-outlet></router-outlet>
