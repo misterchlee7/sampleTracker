@@ -1,0 +1,47 @@
+<h1>Admins create styles here </h1>
+{{ product | json }}
+<form (submit)="onCreate()">
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="styleNo" type="text" name="styleNo" [(ngModel)]="product.styleNo">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <mat-select placeholder="Status"  name="status" [(ngModel)]="product.status">
+      <mat-option value="Available">Available</mat-option>
+      <mat-option value="Unavailable">Unavailable</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="color" type="text" name="color" [(ngModel)]="product.color">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="season" type="text" name="season" [(ngModel)]="product.season">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="material" type="text" name="material" [(ngModel)]="product.material">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="holiday" type="text" name="holiday" [(ngModel)]="product.holiday">
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <textarea matInput placeholder="product description" name="description" [(ngModel)]="product.description"></textarea>
+  </mat-form-field>
+  <mat-form-field class="example-full-width">
+    <input matInput placeholder="location" type="text" name="location" [(ngModel)]="product.location">
+  </mat-form-field>
+  <button mat-raised-button color="primary" type="submit"> Create </button>
+  <button mat-button [routerLink]="['/admin/dash']">Go Back</button>
+
+</form>
+
+<hr>
+<hr>
+
+<h3>admin use only</h3>
+{{ user | json }}
+<form (submit)="createUser()">
+  first name <input type="text" name="firstName" [(ngModel)]="user.firstName">
+  last name <input type="text" name="lastName" [(ngModel)]="user.lastName">
+  email <input type="text" name="email" [(ngModel)]="user.email">
+  password <input type="text" name="password" [(ngModel)]="user.password">
+  <input type="submit" value="create user">
+</form>
