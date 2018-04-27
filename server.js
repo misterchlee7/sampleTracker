@@ -85,20 +85,20 @@ app.get('/api/samples', function(req,res) {
     db.query('SELECT * FROM samples', (err, samples) => {
         res.json({samples:samples});
     });
-});  
+});
 
 app.get('/api/samples/:id', function(req,res) {
     db.query('SELECT * FROM samples WHERE id = ?', req.params.id, (err, sample) => {
         res.json({sample: sample});
     });
-});  
+});
 
 app.post('/api/samples', function(req,res) {
     db.query('INSERT INTO samples SET ?', req.body, (err, result) => {
         console.log(req.body);
         console.log('at least we got here');
     });
-});  
+});
 
 app.delete('/api/samples/:id', function(req,res) {
     db.query('DELETE FROM samples WHERE id = ?', req.params.id, (err, data) => {
@@ -110,3 +110,138 @@ app.delete('/api/samples/:id', function(req,res) {
         }
     });
 });
+app.put('/api/samples/:id', function(req,res) {
+    db.query('UPDATE samples SET styleNo = ?, season = ?, color = ?, description = ?, material = ?, location = ?, status = ?, holiday = ?, updated_at = NOW() WHERE id = ?', [req.body.styleNo, req.body.season, req.body.color, req.body.description, req.body.material, req.body.location, req.body.status, req.body.holiday, req.params.id], (err) => {
+        if (err) {
+            console.log('error updating!!')
+        } else {
+        console.log("success updated at server.js")
+        }
+    });
+});
+app.put('/api/samples/:id/status', function(req,res) {
+    db.query('UPDATE samples SET status = ?, updated_at = NOW() WHERE id = ?', [req.body.status, req.params.id], (err, data) => {
+        if (err) {
+            console.log('error updating!!')
+        } else {
+            res.send(data);
+        }
+    });
+});
+app.post('/search/:id', function(req, res){
+    console.log("req.body is ", req.body)
+    console.log(req.params.id)
+        if(req.params.id == 1){
+            db.query('SELECT * FROM samples WHERE styleNo like ? AND color like ? AND season like ?', [req.body.styleNo, req.body.color, req.body.season], (err, data) => {
+                if (err) throw err;
+                else{
+                    console.log("Working! Data for case 1 is ", data)
+                    res.send(data);
+                }
+            }
+        );
+        }
+        if(req.params.id == 2){
+            db.query('SELECT * FROM samples WHERE styleNo like ? AND season like ?', [req.body.styleNo, req.body.season], (err, data) => {
+                if (err) throw err;
+                else{
+                    console.log("Working! Data for case 2 is ", data)
+                    res.send(data);
+                }
+            }
+        );
+        }
+
+});
+
+// User Controller
+
+app.get('/api/users', function(req,res) {
+    db.query('SELECT * FROM users', (err, users) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(users);
+        }
+    });
+});
+
+app.get('/api/users/:id', function(req,res) {
+    db.query('SELECT * FROM users WHERE id = ?', req.params.id, (err, user) => {
+        if (err) {
+            res.send(err)
+        } else {
+            res.send(user)
+        }
+    });
+});
+
+app.post('/api/users', function(req,res) {
+    db.query('INSERT INTO users SET ?', req.body, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json(result);
+        };
+    });
+});
+
+app.delete('/api/users/:id', function(req,res) {
+    db.query('DELETE FROM users WHERE id = ?', req.params.id, (err) => {
+        if (err) {
+            res.json({err:err});
+        } else {
+            console.log('user deleted successfully');
+        }
+    });
+});
+
+// Order Controller
+app.get('/api/orders', function(req,res) {
+    db.query('SELECT * FROM orders', (err, orders) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.json({orders:orders});
+        }
+    });
+});
+
+app.post('/api/orders', function(req, res) {
+    db.query('INSERT INTO orders SET ?', req.body, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
+})
+// app.post('/api/orders/last', function(req, res) {
+//     db.query('SELECT * FROM orders ORDER BY ID DESC LIMIT 1', (err, result) => {
+//         if (err) {
+//             res.send(err);
+//         } else {
+//             res.send(result);
+//         }
+//     })
+// })
+
+// SampleOrder Controller
+app.post('/api/sampleorders', function(req, res) {
+    db.query('INSERT INTO sampleOrders SET ?', req.body, (err, result) => {
+        if (err) {
+            res.send(err);
+        } else {
+            res.send(result);
+        }
+    })
+})
+
+
+app.all("*", (req,res,next) => {
+  res.sendFile(path.resolve("./sampleApp/dist/index.html"))
+});
+
+// Server Listener
+const port = 8000;
+app.listen(port, ()=> console.log(`Express server listening on port ${port}`));
