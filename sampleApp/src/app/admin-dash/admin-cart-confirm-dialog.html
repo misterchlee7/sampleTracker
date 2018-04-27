@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Your Cart ({{ cartCount }})</h2>
+<mat-dialog-content>
+  <span *ngFor="let item of cartItems">
+      <h3>{{ item.styleNo }}</h3>
+      <p>{{ item.status }}</p>
+  </span>
+
+  <form>
+      <mat-form-field>
+        <mat-select placeholder="Select User" [(ngModel)]="selected" name="user">
+          <mat-option *ngFor="let user of users" [value]="user.id">
+              {{user.lastName}}, {{user.firstName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <p> Selected user id : {{selected}} </p>
+    </form>
+
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onConfirm()">CheckOut</button>
+</mat-dialog-actions>

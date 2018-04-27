@@ -1,0 +1,104 @@
+<h1>ADMIN DASH</h1>
+<mat-expansion-panel>
+   <mat-expansion-panel-header>
+     <mat-panel-title>
+       Your Cart ({{ cartCount }})
+     </mat-panel-title>
+     <mat-panel-description>
+      <span *ngIf="error">
+        <p id="error">{{ error }}</p>
+      </span>
+    </mat-panel-description>
+   </mat-expansion-panel-header>
+  
+   <span *ngFor="let item of cartItems">
+       <p>{{ item.styleNo }} | {{ item.status }} | {{ item.color }} | {{ item.history }} | {{ item.description }} | {{ item.location }}</p>
+     </span>   
+     <button mat-button (click)="openDialog()">Check Out Items</button>
+   </mat-expansion-panel>
+<div id="search">
+ <div *ngFor = "let sample of samples |filter:term">
+
+  <div>
+      <mat-expansion-panel *ngIf="sample.status=='Available'">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{sample.styleNo}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{sample.status}} | {{sample.color}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            <div class="searchProduct">
+              <button (click)="onAdd(sample.id)">+</button>
+              <!-- {{ sample | json}} -->
+              {{sample.styleNo}} |
+              {{sample.status}} |
+              {{sample.color}} |
+              {{sample.season}} |
+              {{sample.material}} |
+              {{sample.holiday}} |
+              {{sample.description}} |
+              {{sample.location}} |
+              {{ sample.createdAt | date:'MMM d, y, h:mm:ss a' }}
+              <button (click)="onEdit(sample.id)">edit</button>
+              <button (click)="onDelete(sample.id)">delete</button>
+            </div>
+            </mat-expansion-panel>
+
+      <mat-expansion-panel *ngIf="sample.status=='Unavailable'" class="unavailable">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{sample.styleNo}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{sample.status}} | {{sample.color}}
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+            <div class="searchProduct">
+              <button (click)="onAdd(sample.id)">+</button>
+              <!-- {{ sample | json}} -->
+              {{sample.styleNo}} |
+              {{sample.status}} |
+              {{sample.color}} |
+              {{sample.season}} |
+              {{sample.material}} |
+              {{sample.holiday}} |
+              {{sample.description}} |
+              {{sample.location}} |
+              {{ sample.createdAt | date:'MMM d, y, h:mm:ss a' }}
+            </div>
+        </mat-expansion-panel>
+  </div>
+</div>
+
+<mat-toolbar>
+   <mat-toolbar-row>
+     <h1>Admin Dash</h1>
+   </mat-toolbar-row>
+  </mat-toolbar>
+  <mat-toolbar-row>
+   <form (submit)="onSearch()">
+       <input type="text" name="styleNo" [(ngModel)]="query.styleNo" placeholder="styleNo ...">
+        <div id="colorQuery">
+         <input type="radio" (click)="colorQuery()">{{ showColor ? 'hide color' : 'show color' }}
+         <div *ngIf="showColor">
+           <input type="text" name="color" [(ngModel)]="query.color" placeholder="color...">
+         </div>
+       </div>
+        <div id="seasonQuery">
+         <input type="radio" (click)="showSeason=!showSeason">{{ showSeason ? 'hide season' : 'show season' }}
+         <div *ngIf="showSeason">
+           <input type="text" name="season" [(ngModel)]="query.season" placeholder="season...">
+         </div>
+       </div>
+       <input type="submit" value="SEARCH">
+   </form>
+
+    <!-- <input id="searchBar" type="text" [(ngModel)]="term" placeholder="Search ..."> -->
+   <!-- <select name="filterBy" [(ngModel)]="selectFilter" (change)="onChange()">
+     <option value="season">season</option>
+     <option value="color">color</option>
+     <option value="recent">most recent</option>
+   </select> -->
+  <!-- </mat-toolbar-row> -->

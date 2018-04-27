@@ -1,0 +1,8 @@
+#error{
+    color: red;
+}
+.unavailable{
+    background-color: red;
+    opacity: 0.3;
+    pointer-events: none;
+}
