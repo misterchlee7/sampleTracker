@@ -1,0 +1,15 @@
+<h1>Admins edit styles here </h1>
+{{ sample | json }}
+<form (submit)="onEdit()">
+  <p>styleNo: <input type="text" name="styleNo" [(ngModel)]="sample.styleNo"></p>
+  <p>status: <select name="status" [(ngModel)]="sample.status">
+    <option>Available</option>
+    <option>Unavailable</option>
+  </select></p>
+  <p>color: <input type="text" name="color" [(ngModel)]="sample.color"></p>
+  <p>season: <input type="text" name="season" [(ngModel)]="sample.season"></p>
+  <p>description:</p> 
+  <textarea placeholder="ruffled dress" name="description" [(ngModel)]="sample.description"></textarea>
+  <p>location: <input type="text" name="location" [(ngModel)]="sample.location"></p>
+  <input type="submit" value="Edit">
+</form>
