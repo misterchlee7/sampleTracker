@@ -1,0 +1,136 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+-- -----------------------------------------------------
+-- Schema sampleTracker
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema sampleTracker
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `sampleTracker` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `firstName` VARCHAR(45) NOT NULL,
+  `lastName` VARCHAR(45) NOT NULL,
+  `email` VARCHAR(45) NOT NULL,
+  `password` VARCHAR(45) NOT NULL,
+  `createdAt` DATETIME NULL,
+  `updatedAt` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`samples`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`samples` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `styleNo` VARCHAR(45) NOT NULL,
+  `color` VARCHAR(45) NOT NULL,
+  `season` VARCHAR(45) NULL,
+  `description` VARCHAR(225) NULL,
+  `material` VARCHAR(45) NULL,
+  `status` VARCHAR(45) NOT NULL,
+  `location` VARCHAR(45) NULL,
+  `holiday` VARCHAR(45) NULL,
+  `createdAt` DATETIME NULL,
+  `updatedAt` DATETIME NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`orders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`orders` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `type` VARCHAR(45) NOT NULL,
+  `createdAt` DATETIME NULL,
+  `updatedAt` DATETIME NULL,
+  `users_id` INT NOT NULL,
+  PRIMARY KEY (`id`),
+  INDEX `fk_orders_users1_idx` (`users_id` ASC),
+  CONSTRAINT `fk_orders_users1`
+    FOREIGN KEY (`users_id`)
+    REFERENCES `mydb`.`users` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`sampleOrders`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `mydb`.`sampleOrders` (
+  `orders_id` INT NOT NULL,
+  `samples_id` INT NOT NULL,
+  `createdAt` DATETIME NULL,
+  `updatedAt` DATETIME NULL,
+  PRIMARY KEY (`orders_id`, `samples_id`),
+  INDEX `fk_orders_has_samples_samples1_idx` (`samples_id` ASC),
+  INDEX `fk_orders_has_samples_orders_idx` (`orders_id` ASC),
+  CONSTRAINT `fk_orders_has_samples_orders`
+    FOREIGN KEY (`orders_id`)
+    REFERENCES `mydb`.`orders` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_orders_has_samples_samples1`
+    FOREIGN KEY (`samples_id`)
+    REFERENCES `mydb`.`samples` (`id`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+USE `sampleTracker` ;
+
+-- -----------------------------------------------------
+-- Table `sampleTracker`.`samples`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sampleTracker`.`samples` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `styleNo` VARCHAR(255) NOT NULL,
+  `season` VARCHAR(255) NOT NULL,
+  `color` VARCHAR(255) NOT NULL,
+  `description` TEXT NULL DEFAULT NULL,
+  `material` VARCHAR(255) NULL DEFAULT NULL,
+  `location` VARCHAR(255) NOT NULL,
+  `status` VARCHAR(255) NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+-- -----------------------------------------------------
+-- Table `sampleTracker`.`users`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `sampleTracker`.`users` (
+  `id` INT(11) NOT NULL AUTO_INCREMENT,
+  `firstName` VARCHAR(255) NULL DEFAULT NULL,
+  `lastName` VARCHAR(255) NULL DEFAULT NULL,
+  `email` VARCHAR(255) NULL DEFAULT NULL,
+  `password` VARCHAR(255) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
